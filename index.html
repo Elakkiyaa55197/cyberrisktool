@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cyber Risk Tool</title>
+</head>
+<body>
+
+<h2>Cyber Risk Scanner</h2>
+
+<input type="text" id="ip" placeholder="Enter IP Address">
+<button onclick="scan()">Scan</button>
+
+<h3>Result:</h3>
+<div id="result"></div>
+
+<script>
+function scan() {
+  let ip = document.getElementById("ip").value;
+
+  fetch("http://127.0.0.1:5000/scan", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ip: ip})
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.error){
+      document.getElementById("result").innerText = data.error;
+    } else {
+      document.getElementById("result").innerText =
+        "Open Ports: " + data.ports + " | Risk Level: " + data.risk;
+    }
+  });
+}
+</script>
+
+</body>
+</html>
