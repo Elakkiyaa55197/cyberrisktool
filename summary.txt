@@ -1,0 +1,8 @@
+Project Summary
+
+In this project, I created a simple web vulnerability scanning system.
+The scanner checks a website URL and identifies possible security problems. 
+Each vulnerability is given a severity level such as Critical, High, Medium, or Low.
+
+The results are displayed in a dashboard for easy understanding.
+An email alert is also sent automatically when high or critical vulnerabilities are detected.

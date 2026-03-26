@@ -1,0 +1,28 @@
+**Web Application Vulnerability Scanning, Risk Evaluation & Alert System**
+
+**Introduction**
+
+This project develops a simple web application vulnerability scanning system. The system scans a given website URL and detects possible security weaknesses. It helps users understand the security status of a website.
+
+**Vulnerability Scanner**
+
+The vulnerability scanner checks the target website for common security issues such as missing security headers and information leaks. Each vulnerability detected is assigned a severity level such as Critical, High, Medium, or Low.
+
+**Risk Evaluation Dashboard**
+
+The dashboard displays the scan results in a simple format. It shows the number of vulnerabilities detected and their severity levels so that users can easily understand the risk level of the website.
+
+**Email Alert System**
+
+The system also sends an automated email alert when a High or Critical vulnerability is detected. The email contains the target URL, scan time, and recommended actions.
+
+**Technologies Used**
+
+* Python
+* Flask
+* Requests Library
+* SMTP for Email Alerts
+
+**Conclusion**
+
+This project demonstrates a basic vulnerability scanning and alert system. It helps identify security issues and provides notifications for important risks.
