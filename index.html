@@ -1,20 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cyber Risk Tool</title>
-</head>
-<body>
-
-<h2>Cyber Risk Scanner</h2>
+  <title>Cyber Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<input type="text" id="ip" placeholder="Enter IP Address">
+  <style>
+    body {
+      background: #0f172a;
+      color: white;
+      font-family: Arial;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Cyber Risk Dashboard</h1>
+
+<input type="text" id="ip" placeholder="Enter IP">
 <button onclick="scan()">Scan</button>
 
-<h3>Result:</h3>
-<div id="result"></div>
+<div class="grid">
+
+  <div class="card">
+    <h3>Open Ports</h3>
+    <p id="ports">--</p>
+  </div>
+
+  <div class="card">
+    <h3>Risk Level</h3>
+    <p id="risk">--</p>
+  </div>
+
+  <div class="card">
+    <h3>Port Chart</h3>
+    <canvas id="portChart"></canvas>
+  </div>
+
+  <div class="card">
+    <h3>Risk Chart</h3>
+    <canvas id="riskChart"></canvas>
+  </div>
+
+</div>
 
 <script>
+let portChart, riskChart;
+
 function scan() {
   let ip = document.getElementById("ip").value;
 
@@ -25,15 +76,47 @@ function scan() {
   })
   .then(res => res.json())
   .then(data => {
-    if(data.error){
-      document.getElementById("result").innerText = data.error;
-    } else {
-      document.getElementById("result").innerText =
-        "Open Ports: " + data.ports + " | Risk Level: " + data.risk;
-    }
+
+    document.getElementById("ports").innerText = data.ports;
+    document.getElementById("risk").innerText = data.risk;
+
+    // PORT CHART
+    let ports = data.ports;
+    let values = ports.map(p => 1);
+
+    if(portChart) portChart.destroy();
+
+    portChart = new Chart(document.getElementById("portChart"), {
+      type: 'bar',
+      data: {
+        labels: ports,
+        datasets: [{
+          label: "Open Ports",
+          data: values
+        }]
+      }
+    });
+
+    // RISK CHART
+    if(riskChart) riskChart.destroy();
+
+    let riskValue = data.risk == "High Risk" ? 3 :
+                    data.risk == "Medium Risk" ? 2 : 1;
+
+    riskChart = new Chart(document.getElementById("riskChart"), {
+      type: 'pie',
+      data: {
+        labels: ["Risk"],
+        datasets: [{
+          data: [riskValue, 3-riskValue]
+        }]
+      }
+    });
+
   });
 }
 </script>
 
 </body>
 </html>
+
